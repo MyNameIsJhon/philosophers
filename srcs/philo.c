@@ -27,7 +27,7 @@ int main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (1);
-	philos = init_philos(av);
+	philos = init_philos(av + 1);
 	number_of_philosophers = philos->data->number_of_philosophers;
 	threads = malloc(sizeof(pthread_t) * number_of_philosophers);
 	while (--number_of_philosophers >= 0)
