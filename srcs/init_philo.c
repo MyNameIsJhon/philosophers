@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:47:18 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 17:52:57 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 18:24:00 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		usleep(philo->data->time_to_sleep);
-		philo_print(philo, "is thinking");
+		philo_eat(philo);
+		philo_sleep(philo);
 	}
 }
 
@@ -68,9 +68,9 @@ static t_data *init_data(char **args)
 	pthread_mutex_init(&data->print_lock, NULL);
 	data->start_time = timestamp_ms();
 	data->number_of_philosophers = ft_atoi(args[0]);
-	data->time_to_die = ft_atoi(args[1]);
-	data->time_to_eat = ft_atoi(args[2]);
-	data->time_to_sleep = ft_atoi(args[3]);
+	data->time_to_die = ft_atoi(args[1]) * 1000;
+	data->time_to_eat = ft_atoi(args[2]) * 1000;
+	data->time_to_sleep = ft_atoi(args[3]) * 1000;
 	return data;
 }
 

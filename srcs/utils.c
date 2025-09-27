@@ -30,3 +30,4 @@ void philo_print(t_philo *philo, char *str)
 	printf("%lld %d %s\n", timestamp_ms() - philo->data->start_time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->print_lock);
 }
+

@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 14:07:59 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 17:52:22 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 18:27:47 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,6 @@ long long	timestamp_ms(void);
 void		philo_print(t_philo *philo, char *str);
 void		*ft_routine(void *arg);
 t_philo		*init_philos(char **args);
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
 #endif
