@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:50 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 18:20:47 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 19:36:54 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void philo_sleep(t_philo *philo)
 {
 	philo_print(philo, "is sleeping");
 	usleep(philo->data->time_to_sleep);
+}
+
+void philo_death(t_philo *philo, long time_add)
+{
+	long long current_time;
+
+	if (timestamp_ms() - philo->last_meal + time_add >= philo->data->time_to_die)
+	{
+		usleep(philo->data->time_to_die);
+
+	}
+	return (0);
 }
 
 void philo_eat(t_philo *philo)

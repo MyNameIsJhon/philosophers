@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:48:17 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 17:49:47 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 19:24:36 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ void philo_print(t_philo *philo, char *str)
 	printf("%lld %d %s\n", timestamp_ms() - philo->data->start_time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->print_lock);
 }
-
