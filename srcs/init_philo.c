@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:47:18 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 19:23:50 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 20:49:10 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 void	*ft_routine(void *arg)
 {
-	(void)arg;
 	t_philo	*philo;
 	
 	philo = (t_philo *)arg;
@@ -26,6 +25,8 @@ void	*ft_routine(void *arg)
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
+		if (philo->is_dead)
+			return NULL;
 	}
 }
 
@@ -56,6 +57,7 @@ static void init_philosophers(t_philo **philos, pthread_mutex_t **forks, int num
 		(*philos)[i].left_fork = &(*forks)[i];
 		(*philos)[i].right_fork = &(*forks)[(i + 1) % number_of_philosophers];
 		(*philos)[i].data = data;
+		(*philos)[i].is_dead = 0;
 		i++;
 	}
 }

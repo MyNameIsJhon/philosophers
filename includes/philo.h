@@ -6,13 +6,14 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 14:07:59 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 18:27:47 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 20:43:23 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 #include <pthread.h>
+#include "libft.h"
 
 typedef struct s_data
 {
@@ -33,6 +34,7 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	long long		last_meal;
 	int				meals_eaten;
+	t_bool			is_dead;
 	t_data			*data;
 }	t_philo;
 
@@ -42,4 +44,5 @@ void		*ft_routine(void *arg);
 t_philo		*init_philos(char **args);
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
+void		*monitor(t_philo *philo);
 #endif

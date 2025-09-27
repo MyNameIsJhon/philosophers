@@ -6,7 +6,7 @@
 /*   By: jriga <jriga@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 18:16:50 by jriga             #+#    #+#             */
-/*   Updated: 2025/09/27 19:48:23 by jriga            ###   ########.fr       */
+/*   Updated: 2025/09/27 20:44:51 by jriga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,31 @@ void philo_sleep(t_philo *philo)
 	usleep(philo->data->time_to_sleep);
 }
 
-void philo_death(t_philo *philo, long time_add)
+void *monitor(t_philo *philo)
 {
-	if (timestamp_ms() - philo->last_meal + time_add >= philo->data->time_to_die)
+	int	lim;
+	int	i;
+	int counter;
+
+	lim = philo->data->number_of_philosophers;
+	i =	0;
+	counter = 0;
+	while (1)
 	{
-		usleep(philo->data->time_to_die);
+		usleep(5000);
+		while (i < lim)
+		{
+			if (timestamp_ms() - philo[i].last_meal > philo->data->time_to_die && !philo->is_dead)
+			{
+				philo_print(&philo[i], "died");
+				philo[i].is_dead = 1;
+				counter++;
+				if (counter == lim)
+					return NULL;
+			}
+			i++;
+		}
+		i = 0;
 	}
 }
 
