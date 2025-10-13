@@ -30,7 +30,7 @@ void	*monitor(t_philo *philo)
 	counter = 0;
 	while (1)
 	{
-		usleep(100);
+		usleep(200);
 		while (i < lim)
 		{
 			if (timestamp_ms() - philo[i].last_meal > philo->data->time_to_die

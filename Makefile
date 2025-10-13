@@ -1,7 +1,7 @@
 # === CONFIG ===
 NAME        := philo
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS      := -Wall -Wextra -Werror -g -pthread
 RM          := rm -f
 MKDIR_P     := mkdir -p
 

@@ -15,11 +15,13 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/_pthread/_pthread_t.h>
 #include <unistd.h>
 
 int	main(int ac, char **av)
 {
 	pthread_t	*threads;
+	pthread_t	mymonitor;
 	t_philo		*philos;
 	int			number_of_philosophers;
 
@@ -32,12 +34,12 @@ int	main(int ac, char **av)
 	philos = init_philos(av + 1);
 	number_of_philosophers = philos->data->number_of_philosophers;
 	threads = malloc(sizeof(pthread_t) * number_of_philosophers);
+	pthread_create(&mymonitor, NULL, (void *)monitor, philos);
+	pthread_detach(mymonitor);
 	while (--number_of_philosophers >= 0)
 		pthread_create(&threads[number_of_philosophers], NULL, ft_routine,
 			&philos[number_of_philosophers]);
 	while (++number_of_philosophers < philos->data->number_of_philosophers)
 		pthread_join(threads[number_of_philosophers], NULL);
-	pthread_create(&threads[0], NULL, (void *)monitor, philos);
-	pthread_join(threads[0], NULL);
 	return (0);
 }
