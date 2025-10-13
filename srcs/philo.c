@@ -25,7 +25,10 @@ int	main(int ac, char **av)
 
 	/* pthread_mutex_t	*forks; */
 	if (ac != 5 && ac != 6)
+	{
+		ft_printf("Usage: .philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]");
 		return (1);
+	}
 	philos = init_philos(av + 1);
 	number_of_philosophers = philos->data->number_of_philosophers;
 	threads = malloc(sizeof(pthread_t) * number_of_philosophers);
@@ -35,6 +38,6 @@ int	main(int ac, char **av)
 	while (++number_of_philosophers < philos->data->number_of_philosophers)
 		pthread_join(threads[number_of_philosophers], NULL);
 	pthread_create(&threads[0], NULL, (void *)monitor, philos);
-	pthread_detach(threads[0]);
+	pthread_join(threads[0]);
 	return (0);
 }

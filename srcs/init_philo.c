@@ -21,13 +21,14 @@ void	*ft_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (1)
+	for (int i = 0; i < philo->data->number_of_meals; i++)
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
 		if (philo->is_dead)
 			return (NULL);
 	}
+	return (NULL);
 }
 
 static void	init_forks(pthread_mutex_t **forks, int number_of_philosophers)
