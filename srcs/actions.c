@@ -13,33 +13,34 @@
 #include <philo.h>
 #include <unistd.h>
 
-void philo_sleep(t_philo *philo)
+void	philo_sleep(t_philo *philo)
 {
 	philo_print(philo, "is sleeping");
 	usleep(philo->data->time_to_sleep);
 }
 
-void *monitor(t_philo *philo)
+void	*monitor(t_philo *philo)
 {
 	int	lim;
 	int	i;
-	int counter;
+	int	counter;
 
 	lim = philo->data->number_of_philosophers;
-	i =	0;
+	i = 0;
 	counter = 0;
 	while (1)
 	{
 		usleep(5000);
 		while (i < lim)
 		{
-			if (timestamp_ms() - philo[i].last_meal > philo->data->time_to_die && !philo->is_dead)
+			if (timestamp_ms() - philo[i].last_meal > philo->data->time_to_die
+				&& !philo->is_dead)
 			{
 				philo_print(&philo[i], "died");
 				philo[i].is_dead = 1;
 				counter++;
 				if (counter == lim)
-					return NULL;
+					return (NULL);
 			}
 			i++;
 		}
@@ -47,7 +48,7 @@ void *monitor(t_philo *philo)
 	}
 }
 
-void philo_eat(t_philo *philo)
+void	philo_eat(t_philo *philo)
 {
 	philo_print(philo, "is thinking");
 	pthread_mutex_lock(philo->left_fork);

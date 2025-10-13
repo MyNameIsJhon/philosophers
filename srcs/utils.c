@@ -10,23 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/time.h>
+#include "philo.h"
 #include <pthread.h>
 #include <stdio.h>
-#include "philo.h"
+#include <sys/time.h>
+#include <unistd.h>
 
-long long    timestamp_ms(void)
+long long	timestamp_ms(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000);
 }
 
-void philo_print(t_philo *philo, char *str)
+void	philo_print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->print_lock);
-	printf("%lld %d %s\n", timestamp_ms() - philo->data->start_time, philo->id, str);
+	printf("%lld %d %s\n", timestamp_ms() - philo->data->start_time, philo->id,
+		str);
 	pthread_mutex_unlock(&philo->data->print_lock);
 }
