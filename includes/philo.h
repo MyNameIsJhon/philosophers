@@ -22,7 +22,9 @@ typedef struct s_data
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	int				number_of_meals;
+	int				ended_threads;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t ended_threads_lock;
 	long long		start_time;
 	pthread_mutex_t	*forks;
 }	t_data;
@@ -44,5 +46,4 @@ void		*ft_routine(void *arg);
 t_philo		*init_philos(char **args);
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
-void		*monitor(t_philo *philo);
 #endif

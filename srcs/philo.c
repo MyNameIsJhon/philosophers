@@ -18,12 +18,41 @@
 #include <sys/_pthread/_pthread_t.h>
 #include <unistd.h>
 
+int	monitor(t_philo *philos, long long time_to_die)
+{
+	int max;
+	int i;
+	t_data *data;
+	long long time;
+
+	data = philos->data;
+	max = data->number_of_philosophers;
+	(void)data;
+	while (data->ended_threads < max)
+	{
+		i = 0;
+		usleep(10000);
+		while (i < max)
+		{
+			time = timestamp_ms() * 1000;
+			if (time - philos[i].last_meal > time_to_die && !philos[i].is_dead)
+			{
+				philos[i].is_dead = 1;
+				philo_print(&philos[i], "died");
+			}
+			i++;
+		}
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	pthread_t	*threads;
-	pthread_t	mymonitor;
 	t_philo		*philos;
 	int			number_of_philosophers;
+	long long	time_to_die;
+	/* t_data		*data; */
 
 	/* pthread_mutex_t	*forks; */
 	if (ac != 5 && ac != 6)
@@ -33,13 +62,14 @@ int	main(int ac, char **av)
 	}
 	philos = init_philos(av + 1);
 	number_of_philosophers = philos->data->number_of_philosophers;
+	time_to_die = philos->data->time_to_die;
+	printf("time to die: %lld\n", time_to_die);
 	threads = malloc(sizeof(pthread_t) * number_of_philosophers);
-	pthread_create(&mymonitor, NULL, (void *)monitor, philos);
-	pthread_detach(mymonitor);
 	while (--number_of_philosophers >= 0)
 		pthread_create(&threads[number_of_philosophers], NULL, ft_routine,
 			&philos[number_of_philosophers]);
 	while (++number_of_philosophers < philos->data->number_of_philosophers)
-		pthread_join(threads[number_of_philosophers], NULL);
+		pthread_detach(threads[number_of_philosophers]);
+	monitor(philos, time_to_die);
 	return (0);
 }

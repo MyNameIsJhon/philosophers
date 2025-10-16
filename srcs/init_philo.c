@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "philo.h"
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -19,15 +20,21 @@
 void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
+	t_data	*data;
 
+	data = ((t_philo *)arg)->data;
 	philo = (t_philo *)arg;
-	for (int i = 0; i < philo->data->number_of_meals; i++)
+	for (int i = 0; i < philo->data->number_of_meals ; i++)
 	{
+		(void)i;
 		philo_eat(philo);
 		philo_sleep(philo);
 		if (philo->is_dead)
-			return (NULL);
+			break ;
 	}
+	pthread_mutex_lock(&data->ended_threads_lock);
+	data->ended_threads++;
+	pthread_mutex_unlock(&data->ended_threads_lock);
 	return (NULL);
 }
 
@@ -54,7 +61,7 @@ static void	init_philosophers(t_philo **philos, pthread_mutex_t **forks,
 	while (i < number_of_philosophers)
 	{
 		(*philos)[i].id = i + 1;
-		(*philos)[i].last_meal = 0;
+		(*philos)[i].last_meal = timestamp_ms() * 1000;
 		(*philos)[i].meals_eaten = 0;
 		(*philos)[i].left_fork = &(*forks)[i];
 		(*philos)[i].right_fork = &(*forks)[(i + 1) % number_of_philosophers];
@@ -70,11 +77,13 @@ static t_data	*init_data(char **args)
 
 	data = malloc(sizeof(t_data));
 	pthread_mutex_init(&data->print_lock, NULL);
+	pthread_mutex_init(&data->ended_threads_lock, NULL);
 	data->start_time = timestamp_ms();
 	data->number_of_philosophers = ft_atoi(args[0]);
-	data->time_to_die = ft_atoi(args[1]) * 1000;
-	data->time_to_eat = ft_atoi(args[2]) * 1000;
-	data->time_to_sleep = ft_atoi(args[3]) * 1000;
+	data->time_to_die = ft_atoi(args[1]) * 1000LL;
+	data->time_to_eat = ft_atoi(args[2]) * 1000LL;
+	data->time_to_sleep = ft_atoi(args[3]) * 1000LL;
+	data->ended_threads = 0;
 	return (data);
 }
 
