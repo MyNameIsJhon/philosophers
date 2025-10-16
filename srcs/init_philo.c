@@ -32,6 +32,7 @@ void	*ft_routine(void *arg)
 		if (philo->is_dead)
 			break ;
 	}
+	philo->is_dead = 1;
 	pthread_mutex_lock(&data->ended_threads_lock);
 	data->ended_threads++;
 	pthread_mutex_unlock(&data->ended_threads_lock);
